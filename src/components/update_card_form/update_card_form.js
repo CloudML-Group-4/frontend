@@ -1,7 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import './update_card_form.css'
 
-export default function UpdateCardForm () {
+
+const UpdateCardForm = () => {
     return(
         <div className="UpdateCardForm" class="container bg-dark text-light p-3">
             <form action="" method="post">
@@ -33,3 +34,5 @@ export default function UpdateCardForm () {
         </div>
     )
 }
+
+export default UpdateCardForm;
