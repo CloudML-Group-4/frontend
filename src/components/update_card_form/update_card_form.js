@@ -4,7 +4,9 @@ import './update_card_form.css'
 
 const UpdateCardForm = () => {
     return(
+        
         <div className="UpdateCardForm" class="container bg-dark text-light p-3">
+            <h1 class="pb-5 pt-5">Update Business Card</h1>
             <form action="" method="post">
                 <div class="mb-3">
                     <label for="lead_name" class="form-label">Lead Name</label>
