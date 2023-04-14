@@ -3,11 +3,12 @@ import './update_card_form.css'
 
 
 const UpdateCardForm = () => {
+
     return(
-        
-        <div className="UpdateCardForm" class="container bg-dark text-light p-3">
-            <h1 class="pb-5 pt-5">Update Business Card</h1>
-            <form action="" method="post">
+        <div className="UpdateCardForm" class="container bg-dark text-light p-3 border-color w-25 mt-5">
+            
+            <h1 class="text-center">Update Business Card</h1>
+            <form action="" method="post" class="pt-5">
                 <div class="mb-3">
                     <label for="lead_name" class="form-label">Lead Name</label>
                     <input type="text" class="form-control" id="lead_name" name="lead_name"></input>
