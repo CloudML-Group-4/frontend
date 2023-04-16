@@ -3,6 +3,7 @@ import HomePage from './pages/home_page';
 import UpdateCard from './pages/update_card';
 import Layout from './pages/layout';
 import NoPage from './pages/no_page';
+import Contact from './pages/contact'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route path="*" element={<NoPage />}/>
           <Route index element={<HomePage />}/>
           <Route path="card_update" element={<UpdateCard />} />
+          <Route path="contact" element={<Contact />} />
         </Route>
       </Routes>
     </BrowserRouter>
