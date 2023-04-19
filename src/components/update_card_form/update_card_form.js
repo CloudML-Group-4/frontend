@@ -14,20 +14,43 @@ const UpdateCardForm = () => {
     const [address, setAddress] = useState();
 
     const data = useLocation().state.data;
+    const editOrUpdate = useLocation().state.editOrUpdate;
 
     const serverUrl = "http://127.0.0.1:8000";
 
     useEffect(() => {
         axios.get(`${serverUrl}/images/${data.fileId}/detect-text`)
-    .then((res) => {
-        setName(res.data.name);
-        setPhone(res.data.phone);
-        setEmail(res.data.email);
-        setWebsite(res.data.website);
-        setAddress(res.data.address);
-    })
-    .catch((e) => console.log(e))
+        .then((res) => {
+            setName(res.data.name);
+            setPhone(res.data.phone);
+            setEmail(res.data.email);
+            setWebsite(res.data.website);
+            setAddress(res.data.address);
+        })
+        .catch((e) => console.log(e))
     }, [])
+
+    const onEditSubmit = (e) => {
+        e.preventDefault();
+        // /contacts/{image_id}/save-text
+        // {name: '', phone: '', email: '', website: '', address: ''}
+        console.log(typeof name);
+        axios.post(`${serverUrl}/contacts/${data.fileId}/save-text`, {
+            name: name,
+            phone: phone,
+            email: email,
+            website: website,
+            address: address
+        })
+            .then((res) => {
+                // key > 'id': image_id,
+                // value > 'access-id': response_iam['access_id']
+                console.log(res.data.id, res.data.value);
+                localStorage.setItem(res.data.id, res.data.value);
+
+            })
+            .catch(e => console.log(e))
+    }
 
 
     return(
@@ -37,11 +60,11 @@ const UpdateCardForm = () => {
             </div>
             <div className="UpdateCardForm" class="container bg-dark text-light p-3 border-color w-25 mt-5">
                 
-                <h1 class="text-center">Update Business Card</h1>
-                <form action="" method="post" class="pt-5">
+                <h1 class="text-center">{editOrUpdate} Business Card</h1>
+                <form class="pt-5" onSubmit={onEditSubmit}>
                     <div class="mb-3">
                         <label for="lead_name" class="form-label">Lead Name</label>
-                        <input type="text" class="form-control" id="lead_name" name="lead_name" value={name || ''} 
+                        <input type="text" class="form-control" id="lead_name" name="lead_name" required value={name || ''} 
                             onChange={(e) => setName(e.target.value)}></input>
                     </div>
                     <div class="mb-3">
