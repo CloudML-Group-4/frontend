@@ -1,53 +1,51 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import './update_card_form.css';
+import './edit_card_form.css';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 
 
-const UpdateCardForm = () => {
+const EditCardForm = () => {
 
     const [name, setName] = useState();
     const [phone, setPhone] = useState();
     const [email, setEmail] = useState();
     const [website, setWebsite] = useState();
     const [address, setAddress] = useState();
-    const [imgUrl, setImgUrl] = useState();
-    const [imgId, setImgId] = useState();
 
     const navigate = useNavigate();
 
-    const id = useLocation().state.id;
+    const data = useLocation().state.data;
 
     const serverUrl = "http://127.0.0.1:8000";
 
     useEffect(() => {
-        axios.get(`${serverUrl}/contacts/${id}/find-by-id`)
+        axios.get(`${serverUrl}/images/${data.fileId}/detect-text`)
         .then((res) => {
-            console.log(res.data);
-            setName(res.data.username['S']);
-            setPhone(res.data.phone['S']);
-            setEmail(res.data.email['S']);
-            setWebsite(res.data.website['S']);
-            setAddress(res.data.address['S']);
-            setImgUrl(res.data.imgUrl['S']);
-            setImgId(res.data['image-id']['S'])
+            console.log('edit_card_form')
+            console.log(res.data.email)
+            setName(res.data.name);
+            setPhone(res.data.phone);
+            setEmail(res.data.email);
+            setWebsite(res.data.website);
+            setAddress(res.data.address);
         })
         .catch((e) => console.log(e))
     }, [])
 
-    const onUpdateSubmit = (e) => {
+    const onEditSubmit = (e) => {
         e.preventDefault();
-        axios.post(`${serverUrl}/contacts/${id}/update-text`, {
+        axios.post(`${serverUrl}/contacts/${data.fileId}/save-text`, {
             name: name,
             phone: phone,
             email: email,
             website: website,
             address: address,
+            imgUrl: data.fileUrl
         })
         .then((res) => {
-            console.log(res.data)
+            localStorage.setItem(res.data.access_id, res.data.id);
             navigate( '/');
         })
         .catch(e => console.log(e))
@@ -57,12 +55,12 @@ const UpdateCardForm = () => {
     return(
         <div>
             <div class="position-absolute">
-                <img src={imgUrl} alt={imgId} width="500" height="600"/>
+                <img src={data.fileUrl} alt={data.fileId} width="500" height="600"/>
             </div>
             <div className="UpdateCardForm" class="container bg-dark text-light p-3 border-color w-25 mt-5">
                 
-                <h1 class="text-center">Update Business Card</h1>
-                <form class="pt-5" onSubmit={onUpdateSubmit}>
+                <h1 class="text-center">Edit Business Card</h1>
+                <form class="pt-5" onSubmit={onEditSubmit}>
                     <div class="mb-3">
                         <label for="lead_name" class="form-label">Lead Name</label>
                         <input type="text" class="form-control" id="lead_name" name="lead_name" required value={name || ''} 
@@ -99,4 +97,4 @@ const UpdateCardForm = () => {
     )
 }
 
-export default UpdateCardForm;
+export default EditCardForm;

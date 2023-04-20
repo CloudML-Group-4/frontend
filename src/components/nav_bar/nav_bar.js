@@ -1,6 +1,31 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import axios from 'axios';
 
 const NavBar = () => {
+
+    const [search, setSearch] = useState();
+
+    const serverUrl = "http://127.0.0.1:8000";
+
+    const navigate = useNavigate();
+
+    const onSearchEdit = (e) => {
+        e.preventDefault();
+        setSearch(e.target.value);
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.post(`${serverUrl}/contacts/find-text`, {
+            name: search
+        })
+        .then((res) => {
+            navigate( '/results', {state: {data: res.data}})
+        })
+        .catch(e => console.log(e));
+    }
+
     return(
         <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-secondary">
             <div class="container-fluid text-light">
@@ -14,17 +39,11 @@ const NavBar = () => {
                             <Link to="/" class="nav-link text-light">Home</Link>
                         </li>
                         <li class="nav-item">
-                            <Link to="/card_update" class="nav-link text-light">Contact</Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link to="/" class="nav-link text-light">Login</Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link to="/" class="nav-link text-light">Sign Up</Link>
+                            <Link to="/contact" class="nav-link text-light">Contact</Link>
                         </li>
                     </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
+                    <form class="d-flex" role="search" onSubmit={handleSubmit}>
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={onSearchEdit}></input>
                         <button class="btn btn-outline-success text-light" type="submit">Search</button>
                     </form>
                 </div>
