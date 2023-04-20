@@ -30,7 +30,7 @@ const HomePage = () => {
             filebytes: converter    
         })
         .then((res) => {
-            navigate( '/card_update', {state: {data: res.data, editOrUpdate: 'Edit'}})
+            navigate( '/card_edit', {state: {data: res.data, editOrUpdate: 'Edit'}})
         })
         .catch((e) => console.log(e))
     }

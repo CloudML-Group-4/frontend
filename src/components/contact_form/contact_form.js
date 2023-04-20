@@ -1,14 +1,21 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import './contact_form.css'
+import { useNavigate } from 'react-router-dom';
 
 
 const ContactForm = () => {
+
+    const navigate = useNavigate();
+
+    const onSubmit = () => {
+        navigate('/');
+    }
 
     return(
         <div className="ContactForm" class="container bg-dark text-light p-3 border-color w-25 mt-5">
             
             <h1 class="text-center">Contact Form</h1>
-            <form action="" method="post" class="pt-5">
+            <form onSubmit={onSubmit} method="post" class="pt-5">
                 <div class="mb-3">
                     <label for="first_name" class="form-label">First Name</label>
                     <input type="text" class="form-control" id="first_name" name="first_name"></input>
